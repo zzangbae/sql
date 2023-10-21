@@ -31,3 +31,30 @@ FROM
 GROUP BY YEAR(w.SALES_DATE), MONTH(w.SALES_DATE)
 ORDER BY YEAR(w.SALES_DATE), MONTH(w.SALES_DATE);
 
+-- 23:32~23:45(13분)
+-- 2021년 가입한 전체 회원들 중 상품 구매한 회원수
+-- 상품을 구매한 회원의 비율(=2021년에 가입한 회원 중 상품을 구매한 회원수 / 2021년에 가입한 전체 회원 수)
+-- 년, 월 별로 출력
+-- 순서: 년 오름차순. 월 오름차순
+-- 2021년에 가입한 전체 회원 수
+SET @pCnt = 
+(SELECT COUNT(u.USER_ID)
+FROM USER_INFO u
+WHERE u.JOINED BETWEEN "2021-01-01" AND "2021-12-31");
+
+SELECT
+YEAR(o.SALES_DATE) YEAR,
+MONTH(o.SALES_DATE) MONTH,
+COUNT(DISTINCT o.USER_ID) PUCHASED_USERS,
+ROUND(COUNT(DISTINCT o.USER_ID) / @pCnt, 1) PUCHASED_RATIO
+FROM ONLINE_SALE o
+WHERE o.USER_ID IN (
+    SELECT u.USER_ID
+    FROM USER_INFO u
+    WHERE u.JOINED BETWEEN "2021-01-01" AND "2021-12-31"
+)
+GROUP BY YEAR(o.SALES_DATE), MONTH(o.SALES_DATE)
+ORDER BY YEAR, MONTH;
+
+-- 년, 월별로 그룹핑한 다음, DISTINCT를 활용하여
+-- 달에 여러 번 구입한 유저는 중복되지 않도록 하였다.
