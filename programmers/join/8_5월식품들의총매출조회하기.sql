@@ -1,0 +1,41 @@
+-- 코드를 입력하세요
+-- 2022년 5월 생산일자 제품
+-- 식품 ID, 식품 이름, 총매출
+-- 총매출 기준으로 내림차순, 식품 ID 오름차순
+
+-- 2. FOOD_PRODUCT와의 JOIN을 통해서 값 처리
+SELECT 
+s.PRODUCT_ID,
+s.PRODUCT_NAME,
+s.PRICE * e.TOTAL_AMOUNT AS TOTAL_SALES
+FROM
+FOOD_PRODUCT s
+INNER JOIN
+(
+    -- 1. 5월 생산된 제품을 찾고, PRODUCT_ID로 묶기
+    SELECT a.PRODUCT_ID, SUM(a.AMOUNT) AS TOTAL_AMOUNT
+    FROM FOOD_ORDER a
+    WHERE a.PRODUCE_DATE BETWEEN '2022-05-01' AND '2022-05-31'
+    GROUP BY a.PRODUCT_ID
+) e
+ON s.PRODUCT_ID = e.PRODUCT_ID
+ORDER BY TOTAL_SALES DESC, s.PRODUCT_ID;
+
+-- 22:50~22:59(9분)
+-- 2022년 5월에 생성한 식품
+-- 조회: 식품ID, 식품이름, 식품 총매출
+-- 순서: 총매출 DESC, 식품ID ASC
+
+SELECT
+p.PRODUCT_ID,
+p.PRODUCT_NAME,
+SUM(o.AMOUNT) * p.PRICE TOTAL_SALES
+FROM FOOD_PRODUCT p JOIN FOOD_ORDER o
+ON p.PRODUCT_ID = o.PRODUCT_ID
+WHERE o.PRODUCE_DATE BETWEEN "2022-05-01" AND "2022-05-31"
+GROUP BY o.PRODUCT_ID
+ORDER BY TOTAL_SALES DESC, p.PRODUCT_ID;
+
+-- 한번의 조인으로 해결, 서브쿼리없이
+-- 조건을 주고, 그룹으로 묶어서 SUM(AMOUNT)가 나오면,
+-- 이 값을 PRICE에 곱하면 매출을 구할 수 있다.
