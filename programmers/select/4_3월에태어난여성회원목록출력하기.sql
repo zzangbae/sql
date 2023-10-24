@@ -1,0 +1,13 @@
+-- 16:02~16:05
+-- 3월 생일 여성 회원의 ID, 이름, 성별, 생년월일
+-- 전화번호NULL -> 출력대상에서 제외
+-- 회원ID 기준으로 오름차순
+SELECT
+m.MEMBER_ID,
+m.MEMBER_NAME,
+m.GENDER,
+DATE_FORMAT(m.DATE_OF_BIRTH, "%Y-%m-%d") DATE_OF_BIRTH
+FROM
+MEMBER_PROFILE m
+WHERE m.GENDER = 'W' AND MONTH(m.DATE_OF_BIRTH) = 3 AND m.TLNO IS NOT NULL
+ORDER BY MEMBER_ID;

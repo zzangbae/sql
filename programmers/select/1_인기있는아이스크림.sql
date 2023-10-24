@@ -1,0 +1,5 @@
+-- 12:33~12:34
+-- 총주문량을 기준 내림차순, 출하량번호 오름차순
+SELECT f.FLAVOR
+FROM FIRST_HALF f
+ORDER BY f.TOTAL_ORDER DESC, f.SHIPMENT_ID;
