@@ -1,0 +1,14 @@
+-- 2022년 10월 작성된 게시글
+-- 제목, 게시글ID, 댓글ID, 댓글작성자ID, 댓글내용, 댓글작성일
+-- 댓글 작성일 오름차순, 게시글 제목 오름차순
+SELECT
+b.TITLE,
+b.BOARD_ID,
+r.REPLY_ID,
+r.WRITER_ID,
+r.CONTENTS,
+DATE_FORMAT(r.CREATED_DATE, "%Y-%m-%d")
+FROM USED_GOODS_BOARD b JOIN USED_GOODS_REPLY r
+ON b.BOARD_ID = r.BOARD_ID
+WHERE b.CREATED_DATE BETWEEN "2022-10-01" AND "2022-10-31"
+ORDER BY r.CREATED_DATE, b.TITLE;

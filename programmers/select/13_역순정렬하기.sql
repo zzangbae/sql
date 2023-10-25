@@ -1,0 +1,5 @@
+-- 모든 동물의 이름, 보호 시작일
+-- ANIMAL_ID 역순
+SELECT a.NAME, a.DATETIME
+FROM ANIMAL_INS a
+ORDER BY ANIMAL_ID DESC;
