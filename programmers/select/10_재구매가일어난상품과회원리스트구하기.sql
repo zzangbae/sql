@@ -29,3 +29,12 @@ ORDER BY 1 ASC, PRODUCT_ID DESC;
 -- count(*)는 행의 갯수를 의미한다.
 -- 즉, USER_ID, PRODUCT_ID같은 행이 몇개인지를 의미하는 것이다.
 -- order by절에서 1은 USER_ID를 의미한다.
+
+-- 다시풀기
+-- 재구매가 일어난 회원 ID, 재구매한 상품 ID
+-- 회원 ID 오름차순, 상품 ID 내림차순
+SELECT USER_ID, PRODUCT_ID
+FROM ONLINE_SALE
+GROUP BY USER_ID, PRODUCT_ID
+HAVING COUNT(*) >= 2
+ORDER BY USER_ID, PRODUCT_ID DESC;
