@@ -1,0 +1,8 @@
+-- 고양이, 개가 각각 몇 마리인지 조회
+-- 고양이 먼저 조회
+SELECT
+ANIMAL_TYPE,
+COUNT(*)
+FROM ANIMAL_INS
+GROUP BY ANIMAL_TYPE
+ORDER BY ANIMAL_TYPE;
