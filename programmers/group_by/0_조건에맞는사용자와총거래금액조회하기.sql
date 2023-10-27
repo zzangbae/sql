@@ -1,0 +1,32 @@
+-- 완료된 중고거래의 총 금액이 70만원 이상인 사람
+-- 회원ID, 닉네임, 총거래금액
+-- 총거래금액 오름차순
+SELECT
+u.USER_ID,
+u.NICKNAME,
+SUM(b.PRICE) TOTAL_SALES
+FROM (
+    SELECT *
+    FROM USED_GOODS_BOARD
+    WHERE STATUS = "DONE") b
+JOIN USED_GOODS_USER u
+ON b.WRITER_ID = u.USER_ID
+GROUP BY b.WRITER_ID
+HAVING SUM(b.PRICE) >= 700000
+ORDER BY TOTAL_SALES;
+
+-- 완료된 중고거래의 총 금액이 70만원 이상인 사람
+-- 회원ID, 닉네임, 총거래금액
+-- 총거래금액 오름차순
+SELECT
+u.USER_ID,
+u.NICKNAME,
+SUM(b.PRICE) TOTAL_SALES
+FROM USED_GOODS_BOARD b JOIN USED_GOODS_USER u ON b.WRITER_ID = u.USER_ID
+WHERE b.STATUS = 'DONE'
+GROUP BY b.WRITER_ID
+HAVING SUM(b.PRICE) >= 700000
+ORDER BY TOTAL_SALES;
+
+-- 아래와같이 하면 서브쿼리 없이 가능
+-- FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY

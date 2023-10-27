@@ -1,0 +1,10 @@
+-- 만원 단위의 가격대 별로 상품 개수를 출력
+-- 가격대 기준 오름차순
+SELECT
+FLOOR(PRICE/10000)*10000 PRICE_GROUP,
+COUNT(*) PRODUCTS
+FROM PRODUCT
+GROUP BY FLOOR(PRICE/10000)
+ORDER BY PRICE_GROUP ASC;
+
+-- FLOOR 함수이용하여 가격대별로 그룹핑할 수 있음을 기억하자
