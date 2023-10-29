@@ -1,0 +1,21 @@
+-- 트럭
+-- 대여기록에 대하여
+-- 대여기록ID, 금액리스트
+-- 대여금액 내림차순, 대여기록ID 내림차순
+
+-- 차정보, 대여정보 조인
+-- LEFT JOIN으로 할인정책도 조인(할인정책 적용안되는 것도 넣기 위해)
+-- 이때, CAST를 활용하여 숫자만 추출
+-- GROUP BY를 이용하여 가장 높은 할인정책만 선택되도록함(높은 것부터 나오게 됨-약간의 트릭)
+
+SELECT
+HISTORY_ID,
+ROUND(DAILY_FEE * (100 - IFNULL(DISCOUNT_RATE, 0)) / 100 * (DATEDIFF(END_DATE, START_DATE) + 1)) FEE
+FROM CAR_RENTAL_COMPANY_CAR c
+JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY h
+ON c.CAR_ID = h.CAR_ID AND c.CAR_TYPE = "트럭"
+LEFT JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN p
+ON c.CAR_TYPE = p.CAR_TYPE
+AND DATEDIFF(END_DATE, START_DATE) + 1 >= CAST(p.DURATION_TYPE AS UNSIGNED)
+GROUP BY HISTORY_ID
+ORDER BY FEE DESC, HISTORY_ID DESC;
