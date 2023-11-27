@@ -17,3 +17,26 @@ CASE WHEN CAR_ID IN (
 FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
 GROUP BY CAR_ID
 ORDER BY CAR_ID DESC;
+
+-- 23.11.27 다시풀기
+-- 2022년 10월 16일에 대여중인 자동차 -> 대여중
+-- 아닌 차 -> 대여 가능 10/16에 반나뱋도 대여중 표시
+-- 자동차ID 기준 내림차순
+
+SELECT
+CAR_ID,
+CASE WHEN CAR_ID IN (
+    -- 10월 16일에 대여중인 차를 찾는다.
+    SELECT CAR_ID
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE "2022-10-16" BETWEEN START_DATE AND END_DATE
+    )
+    THEN "대여중"
+    ELSE "대여 가능"
+    END AVAILABILITY
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+GROUP BY CAR_ID
+ORDER BY 1 DESC;
+
+-- 추가적으로 공부한 내용
+-- ("특정값" BETWEEN 컬럼값 AND 컬럼값)으로도 조건을 나타낼 수 있다.

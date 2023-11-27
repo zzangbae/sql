@@ -13,3 +13,23 @@ FROM FOOD_PRODUCT a JOIN (
 ) b
 ON a.CATEGORY = b.CATEGORY AND a.PRICE = b.MAX_PRICE
 ORDER BY PRICE DESC;
+
+-- 23.11.27 다시풀기
+-- 식품분류별 가격이 제일 비싼 식품
+-- 분류, 가격, 이름
+-- 과자, 국, 김치, 식용유인 경유만 출력
+-- 식품 가격 내림차순
+SELECT
+b.CATEGORY,
+b.PRICE MAX_PRICE,
+b.PRODUCT_NAME
+FROM (
+    SELECT
+    CATEGORY,
+    MAX(PRICE) MAX_PRICE
+    FROM FOOD_PRODUCT
+    WHERE CATEGORY = "과자" OR CATEGORY = "국" OR CATEGORY = "김치" OR CATEGORY = "식용유"
+    GROUP BY CATEGORY    
+) a JOIN FOOD_PRODUCT b
+ON a.CATEGORY = b.CATEGORY AND a.MAX_PRICE = b.PRICE
+ORDER BY 2 DESC;
